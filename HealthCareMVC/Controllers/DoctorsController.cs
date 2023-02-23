@@ -1,10 +1,13 @@
 ﻿using HealthCareMVC.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace HealthCareMVC.Controllers
@@ -83,7 +86,21 @@ namespace HealthCareMVC.Controllers
 
         public async Task<ActionResult> Create()
         {
+           
+                var specializationList = Enum.GetValues(typeof(Specialization))
+                .Cast<Specialization>()
+                .Select(e => new SelectListItem
+                {
+                    Text = e.ToString(),
+                    Value = e.ToString()
+                }) .ToList();
+
+            ViewBag.SpecializationList=specializationList;
+
+
             return View();
+            
+            
         }
 
         [HttpPost]

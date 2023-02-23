@@ -25,6 +25,12 @@
                 <input type="text" asp-for="DoctorPhNo" class="form-control" />
                 <span asp-validation-for="DoctorPhNo"></span>
             </div>
+            <div class="mb-2">
+                <label asp-for="specialization" class="form-label"></label>
+                @Html.DropDownListFor(m=>m.specialization,new SelectList(ViewBag.SpecializationList,"Value","Text"))
+                <span asp-validation-for="specialization"></span>
+            </div>
+  
 
 
             <div class="mb-2">

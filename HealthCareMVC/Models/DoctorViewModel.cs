@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using System.Collections.Generic;
 
 namespace HealthCareMVC.Models
 {
@@ -25,6 +26,9 @@ namespace HealthCareMVC.Models
         [DefaultValue("Empl@123")]
         public string? Password { get; set; }
         // [Required]
+
+        public string specialization { get; set; }
+       
 
     }
 
