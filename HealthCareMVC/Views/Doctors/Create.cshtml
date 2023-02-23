@@ -1,0 +1,56 @@
+﻿@model DoctorViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+
+<form asp-controller="Doctors" asp-action="Create" method="post">
+    <div class="row">
+
+        <div class="col-md-4">
+            <div class="mb-2">
+                <label asp-for="UserName" class="form-label"></label>
+                <input type="text" asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName"></span>
+            </div>
+            <div class="mb-2">
+                <label asp-for="DoctorName" class="form-label"></label>
+                <input type="text" asp-for="DoctorName" class="form-control" />
+                <span asp-validation-for="DoctorName"></span>
+            </div>
+            <div class="mb-2">
+                <label asp-for="DoctorPhNo" class="form-label"></label>
+                <input type="text" asp-for="DoctorPhNo" class="form-control" />
+                <span asp-validation-for="DoctorPhNo"></span>
+            </div>
+
+
+            <div class="mb-2">
+                <label asp-for="DoctorEmail" class="form-label"></label>
+                <input type="text" asp-for="DoctorEmail" class="form-control" />
+                <span asp-validation-for="DoctorEmail"></span>
+            </div>
+            <div class="mb-2">
+                <label asp-for="Password" class="form-label"></label>
+                <input type="text" asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password"></span>
+            </div>
+
+            @*<input type="hidden" asp-for="IsApproved" value="-1" />*@
+
+
+
+            @*
+            @Html.Partial("_PartialGetCargoById");*@
+
+
+
+            <div class="mt-2" d-grid>
+                <input type="submit" class="btn btn-primary" value="Register" />
+
+            </div>
+        </div>
+    </div>
+</form>

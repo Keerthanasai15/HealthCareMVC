@@ -1,0 +1,123 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h1>Dashboard</h1>
+
+@model IEnumerable<ApplicationViewModel>
+
+
+<style>
+    .nav-link {
+        background-color: #ddd;
+        padding: 10px;
+        text-align: center;
+        margin-bottom: 5px;
+    }
+
+    .col-3 {
+        position: absolute;
+        left: 0;
+    }
+</style>
+
+
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-3 bg-light d-flex flex-row flex-wrap">
+            <ul class="nav flex-column w-25">
+                @*<li class="nav-item">
+                    <a asp-action="PendingOrders" asp-controller="Employees" class="nav-link">Pending Orders</a>
+                </li>*@
+                <li class="nav-item">
+                    <a asp-action="SearchPatiByName" asp-controller="Doctors" class="nav-link">Patients</a>
+                </li>
+
+
+            </ul>
+        </div>
+
+
+        <div class="col-9">
+            <div class="card-deck mb-3 mt-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">@ViewBag.YetToFinish</h5>
+                        <p class="card-text">Yet to Finish  </p>
+                    </div>
+                </div>
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">@ViewBag.OrderCount</h5>
+                        <p class="card-text">Total Appointments:</p>
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Id)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ApplicationDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ApplicationId)
+                        </th>
+                        
+                        <th>
+                            @Html.DisplayNameFor(model => model.IsAccepted)
+                        </th>
+                       
+                        <th>
+                            @Html.DisplayNameFor(model => model.PatientId)
+                        </th>
+                        
+                        <th></th>
+                    </tr>
+                </thead>
+                @if (Model != null)
+                {
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ApplicationDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ApplicationId)
+                                </td>
+                                
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.IsAccepted)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AppointmentStatusId)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PatientId)
+                                </td>
+                                
+                                <td>
+
+                                    @*<a asp-action="OrderEdit" asp-controller="Employees" asp-route-id=@item.Id class="btn btn-primary ">Edit</a>
+                            <a asp-action="OrderDelete" asp-controller="Employees" asp-route-id=@item.Id class="btn btn-primary ">Delete</a>*@
+                                   
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                }
+            </table>
+        </div>
+    </div>
+</div>
+

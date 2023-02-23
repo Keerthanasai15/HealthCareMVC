@@ -17,6 +17,33 @@ namespace HealthCareMVC.Controllers
         {
             _configuration = configuration;
         }
+
+        [HttpGet]
+
+        public async Task<IActionResult> Dashboard(int id)
+        {
+            List<ApplicationViewModel> applications = new List<ApplicationViewModel>();
+
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
+                var resultOrders = await client.GetAsync("ApplicationDetails/GetAllApplicationDetails");
+                if (resultOrders.IsSuccessStatusCode)
+                {
+                    applications = await resultOrders.Content.ReadAsAsync<List<ApplicationViewModel>>();
+                    var count = applications.Where(c => c.AppointmentStatusId == 1).Count();
+
+
+                    return View(applications);
+                }
+
+
+
+            }
+
+            return View();
+        }
         public async Task<IActionResult> Index()
         {
             List<DoctorViewModel> doctors = new List<DoctorViewModel>();
@@ -203,7 +230,7 @@ namespace HealthCareMVC.Controllers
                     client.DefaultRequestHeaders.Clear();
                     client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                     client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
-                    var result = await client.PostAsJsonAsync("Employees/Login", login);
+                    var result = await client.PostAsJsonAsync("Doctors/Login", login);
                     if (result.IsSuccessStatusCode)
                     {
                         string token = await result.Content.ReadAsAsync<string>();
@@ -238,6 +265,83 @@ namespace HealthCareMVC.Controllers
             }
             return View(login);
         }
+
+        [HttpGet]
+        [Route("Patient/SearchPatiByName/{Name?}")]
+        public async Task<IActionResult> SearchPatiByName(string Name)
+        {
+
+
+            List<PatientViewModel> patients = new List<PatientViewModel>();
+            using (var client = new HttpClient())
+
+            {
+                client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
+                var result = await client.GetAsync("Patients/GetAllPatients");
+                if (result.IsSuccessStatusCode)
+                {
+                    patients = await result.Content.ReadAsAsync<List<PatientViewModel>>();
+                    if (string.IsNullOrEmpty(Name))
+                    {
+                        return View(patients);
+                    }
+                    List<PatientViewModel> customer = patients.Where(c => c.PatientName.Contains(Name)).ToList();
+
+                    return View(customer);
+
+                }
+            }
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditPatient(int id)
+        {
+            PatientResponses patient = new PatientResponses();
+            if (ModelState.IsValid)
+            {
+
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
+                    var result = await client.GetAsync($"Patients/GetPatientById/{id}");
+                    if (result.IsSuccessStatusCode)
+                    {
+                        patient = await result.Content.ReadAsAsync<PatientResponses>();
+                        return View(patient.value);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Patient does not exist");
+                    }
+                }
+            }
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditPatient(PatientViewModel patient)
+        {
+
+            if (ModelState.IsValid)
+            {
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
+                    var result = await client.PutAsJsonAsync($"Patients/UpdatePatient/{patient.PatientId}", patient);
+                    if (result.StatusCode == System.Net.HttpStatusCode.NoContent)
+                    {
+                        return RedirectToAction("SearchPatiByName");
+
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Server Error, Please try later");
+                    }
+                }
+            }
+            return View(patient);
+        }
+
 
 
 

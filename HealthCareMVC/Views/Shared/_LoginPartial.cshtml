@@ -1,0 +1,56 @@
+﻿@using Microsoft.AspNetCore.Http;
+
+@{
+    var isValid = Context.Session.GetString("token");
+}
+
+
+
+
+
+@if (isValid != null)
+{
+
+    <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+            <a asp-controller="" asp-action="" class="nav-link">Welcome,</a>
+        </li>
+        <li class="nav-item">
+            <form asp-controller="Admin" asp-action="LogOut" method="post">
+                <input type="submit" class=" btn btn-link nav-link" value="Sign Out" />
+            </form>
+        </li>
+    </ul>
+}
+else
+{
+    <style>
+        .dropdown-item {
+            color: aliceblue;
+        }
+
+        .dropdown-menu {
+            background-color: #333;
+        }
+    </style>
+    <ul class="navbar-nav ms-auto">
+
+        <li class="nav-item">
+            <a asp-controller="Patients" asp-action="Create" class="nav-link">Register</a>
+        </li>
+
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Login
+            </a>
+            <div class="dropdown-menu " aria-labelledby="navbarDropdown">
+                <a class="dropdown-item " asp-controller="Admin" asp-action="Login">Admin</a>
+                <a class="dropdown-item " asp-controller="Doctors" asp-action="Login">Doctor</a>
+                <a class="dropdown-item" asp-controller="Patients" asp-action="Login">Patient</a>
+            </div>
+        </li>
+
+
+    </ul>
+}

@@ -1,0 +1,161 @@
+﻿@model HealthCareMVC.Models.ApplicationViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="container">
+
+
+    <h1>Create</h1>
+
+    <h4>ApplicationViewModel</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="ApplicationDate" class="control-label"></label>
+                    <input asp-for="ApplicationDate" class="form-control" />
+                    <span asp-validation-for="ApplicationDate" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ApplicationId" class="control-label"></label>
+                    <input asp-for="ApplicationId" class="form-control" />
+                    <span asp-validation-for="ApplicationId" class="text-danger"></span>
+                </div>
+                
+
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="IsAccepted" /> @Html.DisplayNameFor(model => model.IsAccepted)
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="AppointmentStatusId" class="control-label"></label>
+                    <input asp-for="AppointmentStatusId" class="form-control" />
+                    <span asp-validation-for="AppointmentStatusId" class="text-danger"></span>
+                </div>
+
+                @*  <div class="mb-2">
+                <label asp-for="CargoStatusId" class="form-label">Cargo Type</label>
+                <select asp-for="CargoStatusId" asp-items="@(new SelectList(Model.CargoStatus,"StatusId","StatusName"))">
+                <option value="">--Select--</option>
+                </select>
+                <span asp-validation-for="CargoStatusId"></span>
+                </div>*@
+
+
+
+                <div class="form-group">
+                    <label asp-for="PatientId" class="control-label"></label>
+                    <input asp-for="PatientId" class="form-control" />
+                    <span asp-validation-for="PatientId" class="text-danger"></span>
+                </div>
+
+                @*<div class="form-group">
+                <label asp-for="CargoTypeId" class="control-label"></label>
+                <input asp-for="CargoTypeId" class="form-control" />
+                <span asp-validation-for="CargoTypeId" class="text-danger"></span>
+                </div>*@
+
+
+
+                
+
+                <div id="cargo-properties"></div>
+
+
+
+
+                @*  <div class="form-group">
+                <label asp-for="CityId" class="control-label"></label>
+                <input asp-for="CityId" class="form-control" />
+                <span asp-validation-for="CityId" class="text-danger"></span>
+                </div>*@
+
+
+
+                
+
+
+                
+
+
+
+                <input type="button" id="btnCalculate" class="btn btn-light text-success btn-lg btn-block" value="Generate Price" />
+
+                <h1 id="Price">
+                </h1>
+                @*<div id="calculateButton"></div>*@
+
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+
+            </form>
+
+
+        </div>
+
+
+
+    </div>
+
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+
+</div>
+@section Scripts {
+    @{
+
+        <!-- Add your scripts here -->
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+            $("#CargoTypeId").change(function () {
+                var selectedCargoType = $(this).val();
+
+                $.ajax({
+                    type: "GET",
+                    url: "/CargoOrders/GetCargoById",
+                    data: { id: selectedCargoType },
+                    success: function (data) {
+
+                        $("#cargo-properties").html(data);
+                    }
+                });
+
+            });
+
+
+            $("#btnCalculate").click(function () {
+                var wght = $("#Weight").val();
+                var Id = $("#CargoTypeId").val();
+
+
+                $.ajax({
+                    type: "GET",
+                    url: "/CargoOrders/CalculatePrice",
+                    data: { CargoTypeId: Id, Weight: wght },
+                    success: function (data) {
+                        console.log(data);
+
+                        $("#Price").val(data);
+                    }
+                });
+            });
+        });
+
+    </script>
+
+
+}

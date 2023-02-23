@@ -1,0 +1,29 @@
+﻿@model AppointmentViewModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Cancel your Appointment </h1>
+
+<div class="row">
+    <div class="col-md-5">
+        <ul class="list-group">
+            <li class="list-group-item"><b>Patient Name :</b> @Model.PatientName</li>
+            <li class="list-group-item"><b>Gender :</b>@Model.Gender</li>
+            <li class="list-group-item"><b>Age :</b>@Model.Age</li>
+            <li class="list-group-item"><b>AppointmentDate :</b>@Model.AppointmentDate</li>
+            <li class="list-group-item"><b>Specialization Of Doctor :</b>@Model.SpecializationOfDoctor</li>
+            <li class="list-group-item"><b>Doctor Name :</b> @Model.DoctorName</li>
+        </ul>
+        <div>
+            Are sure do you want to delete Your Appointment?
+        </div>
+        <div>
+            <form asp-controller="Appointments" asp-action="Delete" method="post">
+                <button type="submit" class="btn btn-danger">Cancel Appointment</button>
+            </form>
+        </div>
+        <a asp-controller="Appointments" asp-action="Index">Back to List</a>
+    </div>
+</div>

@@ -18,6 +18,42 @@ namespace HealthCareMVC.Controllers
             _configuration = configuration;
         }
 
+        [HttpGet]
+        [Route("Patient/Dashboard/{id?}")]
+        public async Task<IActionResult> Dashboard(int id)
+        {
+
+
+            List<ApplicationViewModel> orders = new List<ApplicationViewModel>();
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
+                var resultOrders = await client.GetAsync("ApplicationDetails/GetAllApplicationDetails");
+                if (resultOrders.IsSuccessStatusCode)
+                {
+                    orders = await resultOrders.Content.ReadAsAsync<List<ApplicationViewModel>>();
+                    var yourOrders = orders.Where(c => c.PatientId == id).ToList();
+                   // int TotalOrders = yourOrders.Count();
+                    //int PendingOrders = yourOrders.Where(c => c.AppointmentStatusId == 1).Count();
+
+                  //  ViewBag.PendingOrders = PendingOrders; ViewBag.TotalOrders = TotalOrders;
+                    if (yourOrders != null)
+                    {
+                        return View(yourOrders);
+
+                    }
+
+                }
+
+
+
+            }
+
+           // return View(orders);
+            return RedirectToAction("Index", "Doctor");
+        }
+
 
         public async Task<IActionResult> Index()
         {
@@ -207,7 +243,7 @@ namespace HealthCareMVC.Controllers
                     client.DefaultRequestHeaders.Clear();
                     client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                     client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
-                    var result = await client.PostAsJsonAsync("Customers/Login", login);
+                    var result = await client.PostAsJsonAsync("Patients/Login", login);
                     if (result.IsSuccessStatusCode)
                     {
                         string token = await result.Content.ReadAsAsync<string>();
@@ -230,27 +266,27 @@ namespace HealthCareMVC.Controllers
         }
 
         [HttpGet]
-        [Route("Customer/SearchByName/{Name?}")]
+        [Route("Patient/SearchByName/{Name?}")]
         public async Task<IActionResult> SearchByName(string Name)
         {
 
 
-            List<PatientViewModel> customers = new List<PatientViewModel>();
+            List<PatientViewModel> patients = new List<PatientViewModel>();
             using (var client = new HttpClient())
 
             {
                 client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
-                var result = await client.GetAsync("Customers/GetAllCustomers");
+                var result = await client.GetAsync("Patients/GetAllPatients");
                 if (result.IsSuccessStatusCode)
                 {
-                    customers = await result.Content.ReadAsAsync<List<PatientViewModel>>();
+                    patients = await result.Content.ReadAsAsync<List<PatientViewModel>>();
                     if (string.IsNullOrEmpty(Name))
                     {
-                        return View(customers);
+                        return View(patients);
                     }
-                    List<PatientViewModel> customer = customers.Where(c => c.PatientName.Contains(Name)).ToList();
+                    List<PatientViewModel> patient =patients.Where(c => c.PatientName.Contains(Name)).ToList();
 
-                    return View(customer);
+                    return View(patient);
 
                 }
             }

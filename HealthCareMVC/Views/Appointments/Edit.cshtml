@@ -1,0 +1,68 @@
+﻿@model AppointmentViewModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Reschedule an Appointment</h1>
+
+<form asp-controller="Appointments" asp-action="Edit" method="post">
+    <div class="row">
+        <div class="col-md-4">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="mb-2">
+                <label asp-for="PatientName" class="form-label"></label>
+                <input type="text" asp-for="PatientName" class="form-control" />
+                <span asp-validation-for="PatientName"></span>
+            </div>
+            <div class="mb-2">
+                <label asp-for="Gender" class="form-label"></label>
+                Male   @Html.RadioButton("Gender", "Male") Male
+                Female @Html.RadioButton("Gender", "Female")
+                <span asp-validation-for="Gender"></span>
+            </div>
+            <div class="mb-2">
+                <label asp-for="Age" class="form-label"></label>
+                <input type="text" asp-for="Age" class="form-control" />
+                <span asp-validation-for="Age"></span>
+            </div>
+
+            <div class="mb-2">
+                <label asp-for="AppointmentDate" class="form-label"></label>
+                <input type="date" asp-for="AppointmentDate" class="form-control" />
+                <span asp-validation-for="AppointmentDate"></span>
+            </div>
+
+            <div class="mb-2">
+                <label asp-for="TimeSessions" class="form-label"></label>
+                <input type="time" asp-for="TimeSessions" class="form-control" />
+                <span asp-validation-for="TimeSessions"></span>
+            </div>
+
+            <div class="mb-2">
+                <label asp-for="SpecializationOfDoctor" class="form-label"></label>
+                <input type="text" asp-for="SpecializationOfDoctor" class="form-control" />
+                <span asp-validation-for="SpecializationOfDoctor"></span>
+            </div>
+
+            <div class="mb-2">
+                <label asp-for="DoctorName" class="form-label"></label>
+                <input type="text" asp-for="DoctorName" class="form-control" />
+                <span asp-validation-for="DoctorName"></span>
+            </div>
+            <div class="mt-2 d-grid">
+                <input type="submit" class="btn btn-primary" value="Reschedule" />
+            </div>
+            <div>
+                <a asp-controller="Appointments" asp-action="Index">Back to List</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@section Scripts{
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");
+    }
+}

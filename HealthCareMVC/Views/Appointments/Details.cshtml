@@ -1,0 +1,22 @@
+﻿@model AppointmentViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Appointment Details</h1>
+
+<div class="row">
+    <div class="col-md-5">
+        <ul class="list-group">
+            <li class="list-group-item"><b>Patient Name :</b> @Model.PatientName</li>
+            <li class="list-group-item"><b>Gender :</b>@Model.Gender</li>
+            <li class="list-group-item"><b>Age :</b>@Model.Age</li>
+            <li class="list-group-item"><b>AppointmentDate :</b>@Model.AppointmentDate.ToShortDateString()</li>
+            <li class="list-group-item"><b>TimeSessions :</b> @Model.TimeSessions.ToShortTimeString()</li>
+            <li class="list-group-item"><b>Specialization Of Doctor :</b>@Model.SpecializationOfDoctor</li>
+            <li class="list-group-item"><b>Doctor Name :</b> @Model.DoctorName</li>
+        </ul>
+        <a asp-controller="Appointments" asp-action="Index">Back to List</a>
+    </div>
+</div>

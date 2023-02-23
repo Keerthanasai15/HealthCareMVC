@@ -20,7 +20,7 @@ namespace HealthCareMVC.Models
         public string PatientEmail { get; set; }
         [Required]
         [DataType(DataType.Password)]
-        [DefaultValue("Cust@123")]
+        [DefaultValue("Pati@123")]
         public string PatientPassword { get; set; }
     }
 
@@ -34,7 +34,7 @@ namespace HealthCareMVC.Models
 
         [Required]
         [DataType(DataType.Password)]
-        [DefaultValue("Cust@123")]
+        [DefaultValue("Pati@123")]
         public string PatientPassword { get; set; }
 
     }
