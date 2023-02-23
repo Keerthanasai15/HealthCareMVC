@@ -45,13 +45,10 @@ namespace HealthCareMVC.Controllers
                     }
 
                 }
-
-
-
             }
 
-           // return View(orders);
-            return RedirectToAction("Index", "Doctor");
+           return View(orders);
+            //return RedirectToAction("Index", "Doctor");
         }
 
 
